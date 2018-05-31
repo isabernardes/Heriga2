@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> {{ title }} is working!</title>
+</head>
+<body>
+
+{% for obj in object_list %}
+<!--{% url "communities:detail" slug=obj.slug %}-->
+<a href = '{{ obj.get_absolute_url }}'>{{ obj.title }} </a> <br/>
+{{ obj.description }} <br/>
+{{ obj.timestamp }} <br/>
+{{ obj.updated }} <br/>
+
+{% endfor %}
+
+
+</body>
+</html>
