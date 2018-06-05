@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'^', include('authentication.urls', namespace='authentication')),
     url(r'^admin/', admin.site.urls),
     url(r'^communities/', include('stories.urls', namespace='communities')),
+    url(r'^profiles/', include('profiles.urls', namespace='profiles')),
+    url(r'^settings/', include('profiles.urls'), name='settings'),
     
 ]
 

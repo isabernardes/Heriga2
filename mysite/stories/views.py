@@ -1,7 +1,8 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 
-from .models import Community
+from .models import Community, Story
 from .forms import CommunityForm
 
 # Create your views here.
@@ -12,7 +13,6 @@ def communities_create(request):
 		instance = form.save(commit=False)
 		instance.user=request.user
 		instance.save()
-		messages.sucess(request, "A new comunity was created")
 		return HttpResponseRedirect(instance.get_absolute_url())
 	context = {
 		"form":form
@@ -37,6 +37,16 @@ def communities_detail(request, slug=None): #retrieve
 		"instance":instance,
 	}
 	return render(request, "communities_detail.html", context)
+
+def stories_detail(request, c_slug, s_slug): # post = Post.objects.get(<name_of_field>=<argument_in_url>)
+	instance = Story.objects.all()
+	stories = get_object_or_404(Story, community__slug=c_slug, slug = s_slug)
+
+	context = {
+		"stories":stories,
+		"instance":instance,
+	}
+	return render(request, "stories_detail.html", context)
 
 def communities_update(request, slug = None):
 	instance = get_object_or_404(Community, slug=slug)

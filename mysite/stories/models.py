@@ -1,15 +1,16 @@
 from django.conf import settings
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import pre_save
-from django.core.urlresolvers import reverse
 from django.urls import reverse
 from django.utils.text import slugify
-# Create your models here.
 
+# Create your models here.
 class Community (models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     title = models.CharField(max_length=120)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, blank=True)
     description = models.TextField()
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -30,6 +31,40 @@ class Community (models.Model):
 
 
 
+class Story (models.Model): 
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    community = models.ForeignKey(Community)
+    title = models.CharField(max_length=120)
+    slug = models.SlugField(unique=True, blank=True)
+    content = models.TextField(null=True, blank = False)
+    publish = models.DateField(auto_now=False, auto_now_add=False)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+
+    def get_absolute_url(self):
+        return reverse ('communities:stories_detail', kwargs = {'c_slug': self.community.slug, 's_slug': self.slug})
+
+    class Meta:
+        unique_together = (('slug', 'community'))
+
+
+#For stories
+
+def create_slug(instance, new_slug=None): #for stories
+    slug = slugify(instance.title)
+    if new_slug is not None:
+        slug = new_slug
+    qs = Story.objects.filter(slug=slug).order_by("-id")
+    exists = qs.exists()
+    if exists:
+        new_slug = "%s-%s" %(slug, qs.first().id)
+        return create_slug(instance, new_slug=new_slug)
+    return slug
+
+
+#For communities
+
 def create_slug(instance, new_slug=None):
     slug = slugify(instance.title)
     if new_slug is not None:
@@ -48,42 +83,5 @@ def pre_save_community_receiver(sender, instance, *args, **kwargs):
 
 
 pre_save.connect(pre_save_community_receiver, sender=Community)
+pre_save.connect(pre_save_community_receiver, sender=Story)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-class Story (models.Model) 
-user = models.ForeignKey(settings.AUTH_USER_MODEL, default =1)
-communities = 
-title = models.CharField(max_length=120)
-slug = models.SlugField(unique=True)
-image = models.ImageField(upload_to=upload_location, 
-        null=True, 
-        blank=True, 
-        width_field="width_field", 
-        height_field="height_field")
-content = models.TextField(null=True, blank = False)
-draft = models.BooleanField(default=False)
-publish = models.DateField(auto_now=False, auto_now_add=False)
-updated = models.DateTimeField(auto_now=True, auto_now_add=False)
-timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
-
-'''
