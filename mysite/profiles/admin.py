@@ -4,9 +4,9 @@ from django.contrib import admin
 from .models import Profile
 
 class ProfileModelAdmin(admin.ModelAdmin):
-	list_display = ["user", "location", "url","jobtitle"]
+	list_display = ["user", "location", "url","job_title"]
 
 	class Meta:
 		model = Profile
 
-admin.site.register(Profile)
+admin.site.register(Profile, ProfileModelAdmin)

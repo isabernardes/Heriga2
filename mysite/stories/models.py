@@ -23,12 +23,11 @@ class Community (models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse ('communities:detail', kwargs = {'slug': self.slug})
+        return reverse ('communities:communities_detail', kwargs = {'c_slug': self.slug})
 
     class Meta:
         verbose_name = "Community"
         verbose_name_plural = "Communities"
-
 
 
 class Story (models.Model): 
@@ -48,9 +47,12 @@ class Story (models.Model):
     class Meta:
         unique_together = (('slug', 'community'))
 
+    class Meta:
+        verbose_name = "Story"
+        verbose_name_plural = "Stories"
+
 
 #For stories
-
 def create_slug(instance, new_slug=None): #for stories
     slug = slugify(instance.title)
     if new_slug is not None:
@@ -64,7 +66,6 @@ def create_slug(instance, new_slug=None): #for stories
 
 
 #For communities
-
 def create_slug(instance, new_slug=None):
     slug = slugify(instance.title)
     if new_slug is not None:
@@ -83,5 +84,5 @@ def pre_save_community_receiver(sender, instance, *args, **kwargs):
 
 
 pre_save.connect(pre_save_community_receiver, sender=Community)
-pre_save.connect(pre_save_community_receiver, sender=Story)
+#pre_save.connect(pre_save_community_receiver, sender=Story)
 

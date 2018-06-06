@@ -1,5 +1,5 @@
 from django import forms
-from .models import Community
+from .models import Community, Story
 
 class CommunityForm(forms.ModelForm):
 	class Meta:
@@ -7,4 +7,14 @@ class CommunityForm(forms.ModelForm):
 		fields = [
 			"title",
 			"description"
+		] 
+
+class StoryForm(forms.ModelForm):
+	class Meta:
+		model=Story
+		fields = [
+			"title",
+			"content",
+			"community",
+			"publish"
 		] 
