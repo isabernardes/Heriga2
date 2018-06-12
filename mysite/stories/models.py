@@ -5,6 +5,8 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
 from django.utils.text import slugify
+from taggit.managers import TaggableManager
+
 
 # Create your models here.
 class Community (models.Model):
@@ -29,12 +31,31 @@ class Community (models.Model):
         verbose_name = "Community"
         verbose_name_plural = "Communities"
 
+#Make title slug field of community if none is given
+def create_slug(instance, new_slug=None):
+    slug = slugify(instance.title)
+    if new_slug is not None:
+        slug = new_slug
+    qs = Community.objects.filter(slug=slug).order_by("-id")
+    exists = qs.exists()
+    if exists:
+        new_slug = "%s-%s" %(slug, qs.first().id)
+        return create_slug(instance, new_slug=new_slug)
+    return slug
+
+
+def pre_save_community_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = create_slug(instance)
+
+pre_save.connect(pre_save_community_receiver, sender=Community)
+
 
 class Story (models.Model): 
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     community = models.ForeignKey(Community)
     title = models.CharField(max_length=120)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(unique=True, blank=True) #default ='story_slug'
     content = models.TextField(null=True, blank = False)
     publish = models.DateField(auto_now=False, auto_now_add=False)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
@@ -53,36 +74,22 @@ class Story (models.Model):
 
 
 #For stories
-def create_slug(instance, new_slug=None): #for stories
-    slug = slugify(instance.title)
-    if new_slug is not None:
-        slug = new_slug
-    qs = Story.objects.filter(slug=slug).order_by("-id")
-    exists = qs.exists()
-    if exists:
-        new_slug = "%s-%s" %(slug, qs.first().id)
-        return create_slug(instance, new_slug=new_slug)
-    return slug
+def create_slug(instance, new_slug_s=None): #for stories
+    slug_story = slugify(instance.title)
+    if new_slug_s is not None:
+        slug_story = new_slug_s
+    queryset = Story.objects.filter(slug=slug_story).order_by("-id")
+    exists_story = queryset.exists()
+    if exists_story:
+        new_slug_s = "%s-%s" %(slug_story, queryset.first().id)
+        return create_slug(instance, new_slug_s=new_slug_s)
+    return slug_story
 
 
-#For communities
-def create_slug(instance, new_slug=None):
-    slug = slugify(instance.title)
-    if new_slug is not None:
-        slug = new_slug
-    qs = Community.objects.filter(slug=slug).order_by("-id")
-    exists = qs.exists()
-    if exists:
-        new_slug = "%s-%s" %(slug, qs.first().id)
-        return create_slug(instance, new_slug=new_slug)
-    return slug
 
-
-def pre_save_community_receiver(sender, instance, *args, **kwargs):
+def pre_save_story_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = create_slug(instance)
 
-
-pre_save.connect(pre_save_community_receiver, sender=Community)
-#pre_save.connect(pre_save_community_receiver, sender=Story)
+pre_save.connect(pre_save_story_receiver, sender=Story)
 

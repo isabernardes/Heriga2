@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'stories',
     'authentication',
     'profiles',
+    'search',
 ]
 
 MIDDLEWARE = [

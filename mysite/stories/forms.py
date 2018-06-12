@@ -15,6 +15,7 @@ class StoryForm(forms.ModelForm):
 		fields = [
 			"title",
 			"content",
+			#"slug",
 			"community",
-			"publish"
+			"publish",
 		] 

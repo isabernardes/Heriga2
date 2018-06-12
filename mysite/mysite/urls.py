@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^communities/', include('stories.urls', namespace='communities')),
     url(r'^profiles/', include('profiles.urls', namespace='profiles')),
     url(r'^settings/', include('profiles.urls'), name='settings'),
-    
+    url(r'^search/', include ('search.urls'), name='search'),
 ]
 
 if settings.DEBUG:

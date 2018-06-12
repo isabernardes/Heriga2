@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^(?P<c_slug>[\w-]+)/(?P<s_slug>[\w-]+)/edit/$', stories_update, name="stories_updates"),
     url(r'^(?P<c_slug>[\w-]+)/(?P<s_slug>[\w-]+)/delete/$', stories_delete),
     
+
 ]
 

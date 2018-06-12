@@ -1,0 +1,29 @@
+ <div class="page-header">
+    <div class="row">
+      <div class="col-md-3">
+        <h1>'Search'</h1>
+      </div>
+      <div class="col-md-9">
+        <form role="search" action="{% url 'search' %}">
+          <input type="hidden" name="type" value="{{ active }}">
+          <div class="input-group">
+            <input type="text" id="auto-search" class="form-control" name="q" placeholder='Search Community, Stories and Users' value="{{ querystring }}">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row results">
+    <div class="col-md-9">
+      {% if active == 'communities' %}
+        {% include 'communities_search.html' with results=results %}
+      {% elif active == 'stories' %}
+        {% include 'stories_search.html' with results=results %}
+      {% elif active == 'users' %}
+        {% include 'users_search.html' with results=results %}
+      {% endif %}
+    </div>
+  </div>

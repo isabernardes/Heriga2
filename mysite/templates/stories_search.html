@@ -1,0 +1,11 @@
+{% if results %}
+
+    {% for stories in results %}
+  
+          <p>{{ stories.title }}</p>
+          <p>{{ stories.content }}</p>
+          <p>{{ stories.user }}</p>
+     
+    {% endfor %}
+
+{% endif %}

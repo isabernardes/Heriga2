@@ -1,0 +1,13 @@
+{% if results %}
+
+    {% for users_results in results %}
+  
+
+          <p>{{ users_results.profile.user }}</p>
+          <p>{{ users_results.profile.location }}</p>
+          <p>{{ users_results.profile.job_title }}</p>
+          <p>{{ users_results.username }}</p>
+     
+    {% endfor %}
+
+{% endif %}

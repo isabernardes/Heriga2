@@ -1,0 +1,10 @@
+{% if results %}
+
+    {% for communities in results %}
+  
+  		<p>{{ communities.title }}</p>
+        <p>{{ communities.description }}</p>
+     
+    {% endfor %}
+
+{% endif %}
