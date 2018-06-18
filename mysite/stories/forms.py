@@ -18,4 +18,5 @@ class StoryForm(forms.ModelForm):
 			#"slug",
 			"community",
 			"publish",
+			"tags",
 		] 

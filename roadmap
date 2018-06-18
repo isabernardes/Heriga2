@@ -11,25 +11,22 @@ Heriga Roadmap
 	- Add favorites count (TODO)
 	- Add author to listview (TODO)
 
-
-
 3. Search 
 	- search by communities (DONE)
 	- search by stories (DONE)
-	- search by tags
+	- search by tags //SEARCH BY STORIES NOT NECESSARILY BY TAGS, but if so then create a Event Manager on the models in order to retrieve the story of a specific tag -- watch twitter app
 	- search by user (DONE)
+	
 	//ADD AUTOSUGGESTIONS
 	//ADD TYPES FOR BUTTONS AND TEMPLATE --FRONTEND
-
-	############# story slug isn't working!!!###########
 
 4. Comments
 	- Add comments on stories
 	- View comments on stories list as a count
 
 5. Tags
-	- Add tags on stories
-	- View all tags on a thread
+	- Add tags on stories (DONE)
+	- View all tags on a thread --ADD PARTIAL TEMPLATE--
 
 6. Authentification 
 	- Login page (DONE)

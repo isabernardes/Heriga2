@@ -12,6 +12,7 @@ from .views import (
 	stories_detail,
 	stories_update,
 	stories_delete,
+	tags,
 	)
 
 urlpatterns = [
@@ -22,11 +23,12 @@ urlpatterns = [
  	url(r'^(?P<c_slug>[\w-]+)/delete/$', communities_delete),
     
  	#STORIES
-
+	url(r'^tag/(?P<tag>\w+)/$', tags),
     url(r'^(?P<c_slug>[\w-]+)/story/create/$', stories_create),
     url(r'^(?P<c_slug>[\w-]+)/(?P<s_slug>[\w-]+)/$', stories_detail, name="stories_detail"), #Detail of a story
     url(r'^(?P<c_slug>[\w-]+)/(?P<s_slug>[\w-]+)/edit/$', stories_update, name="stories_updates"),
     url(r'^(?P<c_slug>[\w-]+)/(?P<s_slug>[\w-]+)/delete/$', stories_delete),
+    url(r'^tag/(?P<tag>\w+)/$', tags),
     
 
 ]

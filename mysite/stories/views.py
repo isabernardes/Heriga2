@@ -77,7 +77,7 @@ def stories_create(request, c_slug):
 		instance = form.save(commit=False)
 		instance.user=request.user
 		instance.save()
-		#form.save_m2m()
+		form.save_m2m()
 		return HttpResponseRedirect(instance.get_absolute_url())
 	context = {
 		"form":form,
@@ -113,8 +113,15 @@ def stories_update(request, c_slug = None, s_slug =None):
 def stories_delete(request, c_slug = None, s_slug = None):
 	instance = get_object_or_404(Story, community__slug = c_slug, slug=s_slug)
 	instance.delete()
-	return redirect('communities:list') 
+	return redirect('communities:list')
 
-
+def tags(request, tag):
+	stories = Story.objects.filter(tags__name=tag)
+	context={
+            'stories': stories,
+            'tag':tag,
+        } 
+ 
+	return render(request, "tags_list.html", context)
 
 

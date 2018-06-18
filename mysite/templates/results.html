@@ -18,12 +18,18 @@
   </div>
   <div class="row results">
     <div class="col-md-9">
-      {% if active == 'communities' %}
-        {% include 'communities_search.html' with results=results %}
-      {% elif active == 'stories' %}
-        {% include 'stories_search.html' with results=results %}
-      {% elif active == 'users' %}
-        {% include 'users_search.html' with results=results %}
-      {% endif %}
+        {% if active == 'communities' %}
+          {% include 'communities_search.html' with results=results %}
+
+          {% elif active == 'stories' %}
+            {% include 'stories_search.html' with results=results %}
+
+          {% elif active == 'tags' %}
+            {% include 'tags_search.html' with results=results %}
+
+          {% elif active == 'users' %}
+            {% include 'users_search.html' with results=results %}
+
+        {% endif %}
     </div>
   </div>

@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 from stories.models import Community, Story
+from taggit.managers import TaggableManager
+from taggit.models import Tag, TaggedItem
 
 #--from bootcamp.decorators import ajax_required
 
@@ -22,7 +24,7 @@ def search(request):
 
 		try:
 			search_type = request.GET.get('type')
-			if search_type not in ['communities', 'stories', 'users']:
+			if search_type not in ['communities', 'stories','tags', 'users']:
 				search_type = 'stories'
 
 		except Exception:
@@ -34,12 +36,16 @@ def search(request):
 
 		results['communities'] = Community.objects.filter(Q(title__icontains=querystring) | Q(description__icontains=querystring))
 		results['stories'] = Story.objects.filter(Q(title__icontains=querystring) | Q(content__icontains=querystring))
+		results['tags'] = Tag.objects.filter(Q(name__icontains=querystring))
 		results['users'] = User.objects.filter(Q(username__icontains=querystring) | Q(first_name__icontains=querystring) | Q(last_name__icontains=querystring))
 
 
 		count['communities'] = results['communities'].count()
 		count['stories'] = results['stories'].count()
+		count['tags'] = results['tags'].count()
 		count['users'] = results['users'].count()
+
+		print(results['tags'].all())
 
 
 		context_results = {

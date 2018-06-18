@@ -1,0 +1,22 @@
+{% if results %}
+
+    {% for tags in results %}
+  
+         <p> {{ tags.name }}</p>
+         <p> {{ tags.slug }}</p>
+          <p>{{ tags.id }}</p>
+          <p>{{ tags.object_i }}</p>
+          <p>{{ tags.story }}</p>
+          <p>{{ tags.taggit_taggeditem_items.get.0 }}</p>
+          <p>{{ tags.taggit_tagged }}</p>
+			 
+
+          <p>{{ tags.taggit_taggeditem_items.title }}</p>
+     
+    {% endfor %}
+
+{% endif %}
+
+{% for tagged_item in results.tagged_items %}
+    <li>{{ tagged_item.tag.name }}</li>
+{% endfor %}
