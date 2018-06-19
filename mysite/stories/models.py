@@ -6,6 +6,9 @@ from django.db.models.signals import pre_save
 from django.urls import reverse
 from django.utils.text import slugify
 from taggit.managers import TaggableManager
+from comments.models import Comment
+from django.contrib.contenttypes.models import ContentType
+
 
 
 # Create your models here.
@@ -62,9 +65,20 @@ class Story (models.Model):
     tags = TaggableManager()
 
 
-
     def get_absolute_url(self):
         return reverse ('communities:stories_detail', kwargs = {'c_slug': self.community.slug, 's_slug': self.slug})
+
+    @property
+    def comments(self):
+        instance = self
+        qs = Comment.objects.filter_by_instance(instance)
+        return qs
+
+    @property
+    def get_content_type(self):
+        instance = self
+        content_type = ContentType.objects.get_for_model(instance.__class__)
+        return content_type
 
     class Meta:
         unique_together = (('slug', 'community'))
