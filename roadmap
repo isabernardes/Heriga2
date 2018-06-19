@@ -21,8 +21,10 @@ Heriga Roadmap
 	//ADD TYPES FOR BUTTONS AND TEMPLATE --FRONTEND
 
 4. Comments
-	- Add comments on stories
+	- Add comments on stories (DONE)
+	- Delete comments (DONE)
 	- View comments on stories list as a count
+	- Comments thread?
 
 5. Tags
 	- Add tags on stories (DONE)

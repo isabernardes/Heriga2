@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^profiles/', include('profiles.urls', namespace='profiles')),
     url(r'^settings/', include('profiles.urls'), name='settings'),
     url(r'^search/', include ('search.urls'), name='search'),
+    url(r'^comments/', include("comments.urls", namespace='comments')),
 ]
 
 if settings.DEBUG:
